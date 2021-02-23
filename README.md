@@ -10,39 +10,69 @@ This is intended to provide hands-on testing of real-world scenarios without a t
 
 ## Software Dependencies
 
-- [AWS Vault][aws-vault](Optional)
+- [AWS Vault][aws-vault] (Optional)
 - [Lefthook][lefthook]
 - [tfenv][tfenv]
 - [Terraform][terraform]
 - [Packer][packer]
 
+## Other Dependencies
+
+You will need:
+
+- An AWS account
+  - Full access to EC2
+  - Full access to Route 53
+- A domain name that you own
+- A hosted zone in Route 53 which:
+  - Uses your domain
+  - Is public
+  - Is in the same AWS account as the EC2 instance you're launching in
+- A conferencing program that allows you to share your screen (for the Candidate to share their screen while working on the problems)
+- Access to the public internet (to use [Ipify][ipify])
+
 ## Getting Started
 
-The included AMIs built with this default repository consist of:
+The first step in getting the testing environment going is to specify your domain that you will use for the instance. To do this, create a file in the root of this directory called "domain.hcl" and place within it the keypair `domain = "test.mydomain.com"`.
 
-- Broken Nginx
-- Broken Apache
-- Broken Python Web App
-- Broken Ruby Web App
+Once that is done, you need to build your base AMI images for the tests.
 
-### Broken Nginx
+```bash
+lefthook run packer-build
+```
 
-This scenario is intended to provide a candidate the opportunity to demonstrate their familiarity with Systemd, Nginx and a basic web application.  They must determine why the web application is not operational, drilling down into why a service works.  Once a candidate has been able to resolve the first few issues, they must then determine why the web application isn't appearing externally.
+Unfortunately, due to the necessity to access user input, terraform doesn't appear to work when executed via Lefthook.
 
-### Broken Apache
+```bash
+terraform init
+terraform plan --var-file="domain.tfvars"
+```
 
-This scenario is intended to provide a candidate with the opportunity to demonstrate their familiarity with Systemd, Apache and a basic web application.  They must determine why the web application is not operational, drilling down into why a service works.  Once a candidate has been able to resolve the first few issues, they must then determine why the web application isn't appearing externally.
+```bash
+terraform apply --var-file="domain.tfvars"
+```
 
-### Broken Python Web App
+## Cleaning up
 
-This scenario is intended to provide a candidate with the opportunity to demonstrate their familiarity with Python tooling.
+To clean up the Terraform build, simply run:  
 
-### Broken Ruby Web App
+```bash
+terraform destroy --var-file="domain.tfvars"
+```
 
-This scenario is intended to provide a candidate with the opportunity to demonstrate their familiarity with Ruby tooling.
+## How To Connect
+
+We're using a Visual Studio Code server application to perform the testing, so to start connect to https://DOMAIN-IN-domain.hcl-FILE:8443/login.  The password is located in the outputs from the Terraform execution as `code_server_password`, in addition to the URL.  Otherwise, the password is available in a non-encrypted format (for ease of use-do not leave the instance running between test uses!) as a tag (`code-server-password`) on the instance itself.
+
+## How to Perform Testing
+
+The testing performed using these tools is intended to be used in conjunction with a meeting application such as Microsoft Teams or Slack, where a user can share their screen.
+
+Testing technical staff can monitor the instance by connecting via SSH to the instance and to provide additional support to the candidate.
 
 [aws-vault]: https://github.com/99designs/aws-vault
 [lefthook]: https://github.com/Arkweid/lefthook
 [tfenv]: https://github.com/tfutils/tfenv
 [terraform]: https://www.terraform.io/
 [packer]: https://www.packer.io/
+[ipify]: https://ipify.org
