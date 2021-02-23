@@ -76,7 +76,7 @@ Testing technical staff can monitor the instance by connecting via SSH to the in
 
 ## Known Issues
 
-Due to the throwaway nature of this task and repository, the terraform state is handled locally in addition, the private key for the instance and the password for the code-server are treated insecurely.
+Due to the throwaway nature of this task and repository, the terraform state is handled locally, in addition, the private key for the instance and the password for the code-server are treated insecurely.
 
 [aws-vault]: https://github.com/99designs/aws-vault
 [code-server]: https://github.com/cdr/code-server
