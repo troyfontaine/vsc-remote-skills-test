@@ -4,6 +4,11 @@ NAME=$(git config user.name)
 EMAIL=$(git config user.email)
 TEMPLATE=$(git config --global commit.template)
 
+if [ -z "$TEMPLATE" ]; then
+    echo "empty git config global commit template"
+    exit 1
+fi
+
 if [ -z "$NAME" ]; then
     echo "empty git config user.name"
     exit 1
@@ -14,11 +19,4 @@ if [ -z "$EMAIL" ]; then
     exit 1
 fi
 
-if [ -z "$TEMPLATE" ]; then
-    echo "empty git config global commit template"
-    exit 1
-fi
-
-git interpret-trailers --if-exists doNothing --trailer \
-    "Signed-off-by: $NAME <$EMAIL>" \
-    --in-place "$1"
+git interpret-trailers --no-divider --if-exists doNothing --trailer "Signed-off-by: $NAME <$EMAIL>" --in-place "$1"

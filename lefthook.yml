@@ -6,8 +6,8 @@ pre-commit:
     packer-validate:
       run: bash -c "pushd packer || return; packer validate -var-file="../domain.hcl" .; popd || return;"
   scripts:
-    "git-check":
-      runner: bash
+    # "git-check":
+    #   runner: bash
 
 packer-validate:
   commands:
