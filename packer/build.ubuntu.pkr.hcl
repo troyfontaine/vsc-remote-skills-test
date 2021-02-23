@@ -14,26 +14,22 @@ build {
     script            = "./etc/init.sh"
     environment_vars = [
       "DOMAIN=${var.domain}",
+      "SUB_DOMAIN=${var.sub_domain}"
     ]
   }
 
   provisioner "file" {
-    source            = "./key/broken-instance.pub"
-    destination       = "/tmp/broken-instance.pub"
-  }
-
-  provisioner "file" {
-    source            = "./etc/default"
+    source            = "./etc/scenarios/nginx/default"
     destination       = "/tmp/default"
   }
 
   provisioner "file" {
-    source            = "./etc/index.nginx-debian.html"
+    source            = "./etc/scenarios/nginx/index.nginx-debian.html"
     destination       = "/tmp/index.nginx-debian.html"
   }
 
   provisioner "shell" {
-    script            = "./etc/broken-nginx.sh"
+    script            = "./etc/scenarios/nginx/nginx.sh"
   }
 }
 

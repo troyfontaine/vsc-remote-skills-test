@@ -12,13 +12,19 @@ Because this is a PoC, the team isn't worried about using HTTPS.  To be able to 
 
 - The Nginx service is started
 - The Nginx service runs on reboot
-- The Default website is viewable from the web
+- The Default website is viewable from the web on TCP Port 443
 
-## Testing Overview
+### Hint
 
-This test touches on a few areas of server configuration:
+- The Caddy reverse proxy expects Nginx to serve the website on TCP 8090
+- Caddy's configuration should not be touched
 
-- SystemD
-- Nginx
-- Navigating the Linux terminal
-- Using a text-based file editor
+## Success Criteria
+
+The test is successfully passed if the interviewer can reach https://<testinginstance>/
+
+## How to Connect
+
+The candidate should connect to https://<testinginstance>:8443/login and provide the supplied password.  Once at the Code Server console, open the terminal by pressing CTRL+` (CTRL + Backtick).  You can then navigate the file system from the terminal.
+
+To Open a file, you can either use an included editor such as Vim or use `code <filename>`
