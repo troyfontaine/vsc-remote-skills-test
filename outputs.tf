@@ -4,7 +4,7 @@ output "public_ip" {
 }
 
 output "url" {
-  value       = "https://${var.domain}:8443/login"
+  value       = "https://${var.sub_domain}${var.domain}:8443/login"
   description = "The URL to use to access the code server web app"
 }
 
@@ -15,4 +15,5 @@ output "code_server_password" {
 
 output "my_public_ip" {
   value = data.external.myipaddr.result.ip
+  description = "The external IP that SSH is allowed into the testing instance from"
 }

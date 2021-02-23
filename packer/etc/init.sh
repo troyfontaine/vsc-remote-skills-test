@@ -22,6 +22,6 @@ sudo apt-get update
 sudo apt-get -y -qq install caddy
 
 # Replace the domain_name in /tmp/Caddyfile
-echo "Writing domain name $DOMAIN to Caddyfile"
-sudo sed -i "s/domain_name/$DOMAIN/g" /tmp/Caddyfile
+echo "Writing domain name ${SUB_DOMAIN}${DOMAIN} to Caddyfile"
+sudo sed -i "s/domain_name/${SUB_DOMAIN}${DOMAIN}/g" /tmp/Caddyfile
 sudo mv /tmp/Caddyfile /etc/caddy/Caddyfile

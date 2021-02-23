@@ -2,11 +2,15 @@
 
 ## Overview
 
-A terraform configuration that deploys an instance to AWS which runs Visual Studio Code and provides a means of performing remote testing with potential hiring candidates.
+A terraform configuration that deploys an instance to AWS which runs [Code Server][code-server] and provides a means of performing remote testing with potential hiring candidates.
 
-Intended as both a learning tool and a testing tool, this repository can be extended by your in-house engineers/developers to add your own set of customized testing to provide different challenges to potential hires.
+Intended as both a learning tool and a testing tool, this repository can be extended by your in-house engineers/developers to add your own set of customized testing AMI via Packer to provide different challenges to potential hires.
 
-This is intended to provide hands-on testing of real-world scenarios without a ton of code modification, more aimed at familiarity with how services are configured and operate on a standard Linux distribution.
+This was written to provide a hands-on testing of real-world scenarios without a ton of code modification and the scenarios included are more aimed at testing familiarity with how services are configured and operate on a standard Linux distribution in a server environment.
+
+### DevOps Disclaimer
+
+This is not advocacy for treating servers like pets, but a means of gauging how familiar an individual candidate is with typical server configuration concepts.
 
 ## Software Dependencies
 
@@ -33,7 +37,7 @@ You will need:
 
 ## Getting Started
 
-The first step in getting the testing environment going is to specify your domain that you will use for the instance. To do this, create a file in the root of this directory called "domain.hcl" and place within it the keypair `domain = "test.mydomain.com"`.
+The first step in getting the testing environment going is to specify your domain that you will use for the instance. To do this, create a file in the root of this directory called "domain.hcl" and place within it the key = value of `domain = "mydomain.com"`.  There is already a symlink to `domain.hcl` called `domain.tfvars`.  If you wish to configure a sub-domain, you can do so by adding a key = value of `sub_domain = "test."`.
 
 Once that is done, you need to build your base AMI images for the tests.
 
@@ -70,7 +74,12 @@ The testing performed using these tools is intended to be used in conjunction wi
 
 Testing technical staff can monitor the instance by connecting via SSH to the instance and to provide additional support to the candidate.
 
+## Known Issues
+
+Due to the throwaway nature of this task and repository, the terraform state is handled locally, in addition, the private key for the instance and the password for the code-server are treated insecurely.
+
 [aws-vault]: https://github.com/99designs/aws-vault
+[code-server]: https://github.com/cdr/code-server
 [lefthook]: https://github.com/Arkweid/lefthook
 [tfenv]: https://github.com/tfutils/tfenv
 [terraform]: https://www.terraform.io/

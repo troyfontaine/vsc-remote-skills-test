@@ -25,10 +25,6 @@ module "key_pair" {
 
   key_name                    = "testing-key-pair"
   public_key                  = tls_private_key.this.public_key_openssh
-
-  tags = {
-    Terraform                 = "<3"
-  }
 }
 
 # Write the private key file to the system
@@ -62,11 +58,22 @@ resource "aws_security_group" "testing_instance" {
 }
 
 # Create our individual rules that allow us to modify them as needed without destroying the security group
-resource "aws_security_group_rule" "web" {
+resource "aws_security_group_rule" "lets_encrypt" {
   description                 = "Customer Web Traffic to App"
   type                        = "ingress"
   from_port                   = var.http_port
   to_port                     = var.http_port
+  protocol                    = "tcp"
+  cidr_blocks                 = ["0.0.0.0/0"]
+  security_group_id           = aws_security_group.testing_instance.id
+}
+
+# Create our individual rules that allow us to modify them as needed without destroying the security group
+resource "aws_security_group_rule" "web" {
+  description                 = "Customer Web Traffic to App"
+  type                        = "ingress"
+  from_port                   = var.https_port
+  to_port                     = var.https_port
   protocol                    = "tcp"
   cidr_blocks                 = ["0.0.0.0/0"]
   security_group_id           = aws_security_group.testing_instance.id
@@ -150,7 +157,7 @@ resource "aws_instance" "testing_instance" {
 
 # Select our Route 53 Hosted Zone
 data "aws_route53_zone" "selected" {
-  name                        = var.domain
+  name                        = "${var.sub_domain}${var.domain}"
   private_zone                = false
 }
 
