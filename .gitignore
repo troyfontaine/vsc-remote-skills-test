@@ -29,3 +29,6 @@ override.tf.json
 # example: *tfplan*
 domain.hcl
 *.pem
+
+# Include the build directories for the documentation
+docs/**/**/public
