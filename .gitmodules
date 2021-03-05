@@ -1,0 +1,3 @@
+[submodule "docs/themes/SimpleIntro"]
+	path = docs/themes/SimpleIntro
+	url = https://github.com/gangjun06/SimpleIntro
