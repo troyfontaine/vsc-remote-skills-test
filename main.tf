@@ -148,6 +148,20 @@ resource "aws_instance" "testing_instance" {
     }
   }
 
+  # Restart code-server to use the new configuration
+  provisioner "remote-exec" {
+    inline = [
+      "sudo systemctl restart --now code-server@$USER"
+    ]
+    connection {
+      type                     = "ssh"
+      user                     = "ubuntu"
+      private_key              = tls_private_key.this.private_key_pem
+      host                     = self.public_dns
+    }
+  }
+  # Restart Caddy to use the new creds 
+
   tags = {
     Name                      = "testing_instance"
     Env                       = "non-prod"
