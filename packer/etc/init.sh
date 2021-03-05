@@ -11,8 +11,8 @@ sudo apt-get -y -qq install curl wget git vim apt-transport-https ca-certificate
 # https://github.com/cdr/code-server
 curl -fsSL https://code-server.dev/install.sh | sudo sh
 sudo systemctl enable --now code-server@$USER
-sleep 30s
-cat ~/.config/code-server/config.yaml | grep password:
+# sleep 30s
+# cat ~/.config/code-server/config.yaml | grep password:
 
 # Install Caddy
 sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
@@ -22,6 +22,9 @@ sudo apt-get update
 sudo apt-get -y -qq install caddy
 
 # Replace the domain_name in /tmp/Caddyfile
-echo "Writing domain name ${SUB_DOMAIN}${DOMAIN} to Caddyfile"
+# This is required for Acme/Let's Encrypt to work as Caddy
+# doesn't otherwise know what domain we're using
 sudo sed -i "s/domain_name/${SUB_DOMAIN}${DOMAIN}/g" /tmp/Caddyfile
+
+# Move the Caddy Config File
 sudo mv /tmp/Caddyfile /etc/caddy/Caddyfile
