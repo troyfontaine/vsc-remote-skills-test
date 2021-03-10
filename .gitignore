@@ -32,3 +32,4 @@ domain.hcl
 
 # Include the build directories for the documentation
 docs/**/**/public
+env/

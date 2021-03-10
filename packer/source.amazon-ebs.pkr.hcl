@@ -1,7 +1,4 @@
 source "amazon-ebs" "ubuntu" {
-  # such comments ! Much wow !
-  #access_key              = "${var.aws_access_key}"
-  #ami_name = "ubuntu-20-04-base-image-${local.timestamp}"
   region                  = "${var.region}"
   instance_type           = "t2.micro"
 

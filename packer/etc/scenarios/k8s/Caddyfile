@@ -11,7 +11,7 @@ domain_name:443 {
     file_server
   }
 
-  # Nginx Reverse Proxy
+  # Reverse Proxy to the other Application
   handle {
     reverse_proxy * 127.0.0.1:8090
   }

@@ -8,12 +8,19 @@ aliases = ["Home", "Scenario"]
 
 You need to investigate why the website on the testing server isn't responding and figure out what is left to get the default website working so that the developers can toss the concept app on it prior to containerization."
 
+## Current Situation
+
+- The reverse proxy throws a 502 error
+- Nginx isn't starting on reboot
+- Nginx isn't running when started
+
 ## Success Criteria
 
 - When:
+  - Nginx is running and serving the website
   - the interviewer can reach https://example.com without a 404 or 50X error
   - the interviewer can see the default nginx page
-  - The page will load successfully after a server reboot without intervention from the candidate
+  - If the server is restarted, that the page will load successfully after a server reboot without intervention from the candidate
 
 ## Environment Caveats
 
@@ -28,10 +35,13 @@ It has been configured as follows:
 
 ## How to Test
 
-1. You're on it-you're reading the documentation
-2. Share your screen with the Interviewer via your screen sharing software
-3. You will need to connect to https://example.com:8443/login, the interviewer should provide you with the password
-4. Once at the Code Server console, you will need to open the terminal by pressing CTRL+` (CTRL + Backtick)
-5. Using the terminal, leverage the built-in tools within the Ubuntu distribution to determine what is wrong with Nginx
+1. Please explain what you're doing and why as you go through the test, that way the interviewer understands your approach 
+2. You're on it-you're reading the documentation
+3. Share your screen with the Interviewer via your screen sharing software
+4. You will need to open [this site](https://example.com:8443/login) in your browser and once open, the interviewer should provide you with the password
+5. Once at the Code Server console, you will need to open the terminal by pressing CTRL+` (CTRL + Backtick)
+6. Using the terminal, leverage the built-in tools within the Ubuntu distribution the VM is using to determine what is wrong with Nginx 
 
 To Open a file, you can either use an included editor such as Vim, Nano or use `code <filename>`
+
+*OPTIONAL* Ask your interviewer if you can use Google for any questions that you have.

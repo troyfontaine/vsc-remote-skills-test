@@ -1,20 +1,29 @@
 +++
 title = "Scenario"
-description = "Apache Misconfiguration Test"
-date = "2021-03-04"
+description = "Kubernetes Configuration Test"
+date = "2021-02-28"
 aliases = ["Home", "Scenario"]
 +++
-"So Joe who used to be in Help Desk got promoted and was told to set up this server for Bob in accounting (don't ask).  Anyways, Joe is still pretty green and decided he wanted to use Apache when we've standardized on Nginx.  So he was playing with this server and now the website doesn't load on it-and Bob is getting a bit upset...
+"Welcome to the party!  Management has requested that we look at using Kubernetes, so Joe tossed something called 'K-three-ess' on a VM.  Can you launch a website on it?"
 
-You need to investigate why the apache default site isn't loading.  It could be because Nginx is installed...  But who knows?"
+## Current Situation
+
+- Kubernetes is available via a tool called [k3s](https://k3s.io/)
+- K3s' API Endpoint is public facing
+- Kubeconfig is located at `/etc/rancher/k3s/k3s.yaml`
 
 ## Success Criteria
 
 - When:
-  - Apache is running and serving the website
+  - Using Nodeport, expose the site on 8090 (no need for a load balancer)
   - the interviewer can reach https://example.com without a 404 or 50X error
-  - the interviewer can see the default page
+  - the interviewer can see the default nginx page
   - The page will load successfully after a server reboot without intervention from the candidate
+
+## Bonus Points
+
+- When:
+  - Launch a pair of nginx containers that match so we have high availability
 
 ## Environment Caveats
 
@@ -25,7 +34,7 @@ It has been configured as follows:
 - Caddy is listening on TCP 80 and TCP 443
 - Caddy is serving this documentation page
 - Caddy is serving the [code-server](https://github.com/cdr/code-server) UI on TCP 8443
-- Caddy is configured to reverse-proxy Nginx as long as whatever it is proxying to is using TCP 8090
+- Caddy is configured to reverse-proxy Nginx as long as Nginx is using TCP 8090
 
 ## How to Test
 

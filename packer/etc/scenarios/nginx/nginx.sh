@@ -2,7 +2,7 @@
 set -x
 
 # Install nginx
-sudo apt-get -y -qq install nginx net-tools
+sudo apt-get -y -qq install nginx
 
 # Stop and disable nginx
 sudo systemctl stop nginx

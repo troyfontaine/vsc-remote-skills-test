@@ -1,10 +1,18 @@
 ---
 pre-commit:
   commands:
-    test-terraform:
-      run: terraform plan --var-file="domain.tfvars"
+    # test-terraform:
+    #   run: terraform plan --var-file="domain.tfvars"
     packer-validate:
-      run: bash -c "pushd packer || return; packer validate -var-file="../domain.hcl" .; popd || return;"
+      run: |
+        pushd packer || return
+        packer validate -var-file="../domain.hcl" .
+        popd || return
+    packer-plan:
+      run: |
+        pushd packer || return
+        packer plan -var-file="../domain.hcl" .
+        popd || return
   scripts:
     # "git-check":
     #   runner: bash
@@ -17,14 +25,67 @@ packer-validate:
 packer-build:
   commands:
     packer-build:
-      run: bash -c "pushd packer || return; packer build -var-file="../domain.hcl" .; popd || return;"
+      run: |
+        bash -c "pushd packer || return; packer build -var-file="../domain.hcl" .;
+        popd || return;"
 
-terraform-plan:
+terraform-plan-default:
   commands:
     terraform-plan:
       run: terraform plan --var-file="domain.tfvars"
 
-# terraform-apply:
-#   commands:
-#     terraform-apply:
-#       run: terraform apply --var-file="domain.tfvars"
+terraform-plan-k8s:
+  commands:
+    terraform-plan:
+      run: |
+        terraform plan --var-file="domain.tfvars" \
+        -var="image_name_filter=ubuntu-focal-hiring-testing-k8s-*"
+
+terraform-plan-apache:
+  commands:
+    terraform-plan:
+      run: |
+        terraform plan --var-file="domain.tfvars" \
+        -var="image_name_filter=ubuntu-focal-hiring-testing-apache-*"
+
+terraform-apply-default:
+  commands:
+    terraform-apply:
+      run: terraform apply --var-file="domain.tfvars" -auto-approve
+
+terraform-destroy-default:
+  commands:
+    terraform-destroy:
+      run: terraform destroy --var-file="domain.tfvars" -auto-approve
+
+terraform-apply-k8s:
+  commands:
+    terraform-apply:
+      run: |
+        terraform apply --var-file="domain.tfvars" \
+        -var="image_name_filter=ubuntu-focal-hiring-testing-k8s-*" \
+        -auto-approve
+
+terraform-destroy-k8s:
+  commands:
+    terraform-destroy:
+      run: |
+        terraform destroy --var-file="domain.tfvars" \
+        -var="image_name_filter=ubuntu-focal-hiring-testing-k8s-*" \
+        -auto-approve
+
+terraform-apply-apache:
+  commands:
+    terraform-apply:
+      run: |
+        terraform apply --var-file="domain.tfvars" \
+        -var="image_name_filter=ubuntu-focal-hiring-testing-apache-*" \
+        -auto-approve
+
+terraform-destroy-apache:
+  commands:
+    terraform-destroy:
+      run: |
+        terraform destroy --var-file="domain.tfvars" \
+        -var="image_name_filter=ubuntu-focal-hiring-testing-apache-*" \
+        -auto-approve
