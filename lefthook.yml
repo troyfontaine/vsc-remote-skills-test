@@ -5,14 +5,10 @@ pre-commit:
     #   run: terraform plan --var-file="domain.tfvars"
     packer-validate:
       run: |
-        pushd packer || return
+        bash -c \
+        'pushd packer || return
         packer validate -var-file="../domain.hcl" .
-        popd || return
-    packer-plan:
-      run: |
-        pushd packer || return
-        packer plan -var-file="../domain.hcl" .
-        popd || return
+        popd || return'
   scripts:
     # "git-check":
     #   runner: bash
