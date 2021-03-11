@@ -89,6 +89,17 @@ resource "aws_security_group_rule" "code-server" {
   security_group_id           = aws_security_group.testing_instance.id
 }
 
+resource "aws_security_group_rule" "k8s-server" {
+  description                 = "Kubernetes Access"
+  type                        = "ingress"
+  from_port                   = var.k8s_port
+  to_port                     = var.k8s_port
+  protocol                    = "tcp"
+  cidr_blocks                 = ["0.0.0.0/0"]
+  security_group_id           = aws_security_group.testing_instance.id
+  count            = var.image_name_filter == "ubuntu-focal-hiring-testing-k8s-*" ? 1 : 0
+}
+
 resource "aws_security_group_rule" "ssh" {
   description                 = "SSH Access to Host"
   type                        = "ingress"
@@ -119,7 +130,7 @@ data "aws_ami" "ubuntu" {
 # Configure our instance to launch
 resource "aws_instance" "testing_instance" {
   ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t2.micro"
+  instance_type               = "t2.small"
   availability_zone           = "us-west-2a"
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.testing_instance.id]
@@ -147,6 +158,20 @@ resource "aws_instance" "testing_instance" {
       host                     = self.public_dns
     }
   }
+
+  # Restart code-server to use the new configuration
+  provisioner "remote-exec" {
+    inline = [
+      "sudo systemctl restart --now code-server@$USER"
+    ]
+    connection {
+      type                     = "ssh"
+      user                     = "ubuntu"
+      private_key              = tls_private_key.this.private_key_pem
+      host                     = self.public_dns
+    }
+  }
+  # Restart Caddy to use the new creds 
 
   tags = {
     Name                      = "testing_instance"

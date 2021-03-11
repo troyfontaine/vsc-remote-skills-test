@@ -1,0 +1,21 @@
+# We specify the domain name in order for Acme to work
+domain_name:8443 {
+  reverse_proxy 127.0.0.1:8080
+}
+
+domain_name:443 {
+  # Access the Documentation Site
+  handle_path /docs/* {
+    root * /var/www/html/docs/public/
+    try_files {path} {path}/ /index
+    file_server
+  }
+
+  # Reverse Proxy to the other Application
+  handle {
+    reverse_proxy * 127.0.0.1:8090
+  }
+  handle_errors {
+    respond "{http.error.status_code} {http.error.status_text}"
+  }
+}

@@ -16,6 +16,12 @@ variable "vs_port" {
   default     = 8443
 }
 
+variable "k8s_port" {
+  description = "Port used for visual studio code app from the www"
+  type        = number
+  default     = 6443
+}
+
 variable "ssh_port" {
   description = "Port used for SSH access to the testing instance"
   type        = number

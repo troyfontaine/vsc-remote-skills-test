@@ -1,0 +1,3 @@
+baseURL: https://example.com
+relativeURLs: true
+canonifyURLs: false

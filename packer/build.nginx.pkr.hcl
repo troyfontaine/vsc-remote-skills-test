@@ -6,7 +6,7 @@ build {
   }
 
   provisioner "file" {
-    source            = "./etc/Caddyfile"
+    source            = "./etc/scenarios/nginx/Caddyfile"
     destination       = "/tmp/Caddyfile"
   }
 
@@ -16,6 +16,20 @@ build {
       "DOMAIN=${var.domain}",
       "SUB_DOMAIN=${var.sub_domain}"
     ]
+  }
+
+  provisioner "shell-local" {
+    inline = ["./build-hugo.sh nginx"]
+    environment_vars = [
+      "DOMAIN=${var.domain}",
+      "SUB_DOMAIN=${var.sub_domain}"
+    ]
+  }
+
+  provisioner "file" {
+    source            = "../docs/scenarios/nginx/public"
+    destination       = "/tmp/public"
+    generated         = "true"
   }
 
   provisioner "file" {
@@ -32,30 +46,3 @@ build {
     script            = "./etc/scenarios/nginx/nginx.sh"
   }
 }
-
-// build {
-//   name = "hiring-testing-apache"
-//   source "source.amazon-ebs.ubuntu" {
-//     ami_name = "ubuntu-focal-hiring-testing-apache-${local.timestamp}"
-//     ami_description = "Testing Image with Broken Apache Install"
-//   }
-
-//   provisioner "shell" {
-//     script = "./etc/init.sh"
-//   }
-
-//   provisioner "file" {
-//     source = "./key/broken-instance.pub"
-//     destination = "/tmp/broken-instance.pub"
-//   }
-
-//   provisioner "shell" {
-//     script = "./etc/broken-apache.sh"
-//   }
-// }
-
-# broken bash script
-
-# broken ruby app
-
-# broken python app
