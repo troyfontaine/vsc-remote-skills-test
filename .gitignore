@@ -33,3 +33,9 @@ domain.hcl
 # Include the build directories for the documentation
 docs/**/**/public
 env/
+
+# VS Code configuration
+.vscode
+
+# Mac Files
+.DS_Store

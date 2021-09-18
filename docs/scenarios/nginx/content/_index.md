@@ -35,12 +35,12 @@ It has been configured as follows:
 
 ## How to Test
 
-1. Please explain what you're doing and why as you go through the test, that way the interviewer understands your approach 
+1. Please explain what you're doing and why as you go through the test, that way the interviewer understands your approach
 2. You're on it-you're reading the documentation
 3. Share your screen with the Interviewer via your screen sharing software
 4. You will need to open [this site](https://example.com:8443/login) in your browser and once open, the interviewer should provide you with the password
 5. Once at the Code Server console, you will need to open the terminal by pressing CTRL+` (CTRL + Backtick)
-6. Using the terminal, leverage the built-in tools within the Ubuntu distribution the VM is using to determine what is wrong with Nginx 
+6. Using the terminal on the remote host, leverage the built-in tools within the Ubuntu distribution the VM is using to determine what is wrong with Nginx
 
 To Open a file, you can either use an included editor such as Vim, Nano or use `code <filename>`
 
